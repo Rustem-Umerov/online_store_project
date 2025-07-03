@@ -18,11 +18,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_paths = ["src", "classes"]
+python_paths = ["src", "models"]
 
 addopts = [
     "--cov=src",
-    "--cov=classes",
+    "--cov=models",
     "--cov-report=term-missing",
     "--cov-report=html",
     "--cov-fail-under=80"
@@ -37,7 +37,7 @@ omit = [
 show_missing = true
 
 [tool.coverage.paths]
-source = ["src", "classes"]
+source = ["src", "models"]
 
 
 
