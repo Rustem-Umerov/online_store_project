@@ -36,11 +36,54 @@ class Category:
         self.name = name
         self.description = description
 
-        self.products = products or []
-        for item in self.products:
+        self.__products = products or []
+        for item in self.__products:
             if not isinstance(item, Product):
                 raise TypeError("The product list must contain only Product objects.")
 
         cls = type(self)
         cls.category_count += 1
         cls.product_count += len(self.products)
+
+    @property
+    def products(self) -> list[Product]:
+        """Список товаров (только для чтения)."""
+
+        return list(self.__products)
+
+
+    def add_product(self, product: Product) -> None:
+        """Специальный метод, для добавления товаров в категорию."""
+
+        if not isinstance(product, Product):
+            raise TypeError("Must add Product instance.")
+        self.__products.append(product)
+        type(self).product_count += 1
+
+    @property
+    def list_product(self) -> str:
+        """Геттер, который выводит список товаров в виде строк в формате:
+        Название продукта, 80 руб. Остаток: 15 шт."""
+
+        return "\n".join(
+            f"{prod.name}, {prod.price} руб. Остаток: {prod.quantity} шт."
+        for prod in self.__products
+        )
+
+    def create_or_update_product(self, name: str, description: str, price: float, quantity: int) -> Product:
+        """Создаёт или обновляет товар через класс-метод Product.new_product,
+        передавая в него текущий список self.__products."""
+
+        prod = Product.new_product(
+            name=name ,
+            description=description,
+            price=price,
+            quantity=quantity,
+            existing_products=self.__products
+        )
+        if prod not in self.__products:
+            self.__products.append(prod)
+            type(self).product_count += 1
+        return prod
+
+
