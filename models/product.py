@@ -1,4 +1,6 @@
 from src.exceptions import InvalidPriceError, PriceDecreaseError
+from typing import Optional
+
 
 class Product:
     """
@@ -13,7 +15,6 @@ class Product:
 
     name: str
     description: str
-    price: float
     quantity: int
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
@@ -34,16 +35,15 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
-
     @classmethod
     def new_product(
-            cls,
-            name: str,
-            description: str,
-            price: float,
-            quantity: int,
-            existing_products: list["Product"] = None
-    )-> "Product":
+        cls,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        existing_products: Optional[list["Product"]] = None,
+    ) -> "Product":
         """Класс-метод, который принимает на вход параметры товара в словаре
         и возвращает созданный объект класса Product"""
 
@@ -82,7 +82,7 @@ class Product:
 
         self.__price = new_price
 
-    def force_price_update(self, new_price: float):
+    def force_price_update(self, new_price: float) -> None:
         """Принудительное обновление цены без срабатывания исключения."""
 
         self.__price = new_price

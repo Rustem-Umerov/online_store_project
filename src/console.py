@@ -1,4 +1,4 @@
-from exceptions import InvalidPriceError, PriceDecreaseError
+from src.exceptions import InvalidPriceError, PriceDecreaseError
 from models.product import Product
 
 
