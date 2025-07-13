@@ -1,3 +1,7 @@
+from src.exceptions import InvalidPriceError, PriceDecreaseError
+from typing import Optional
+
+
 class Product:
     """
     Класс Product описывает товар.
@@ -11,7 +15,6 @@ class Product:
 
     name: str
     description: str
-    price: float
     quantity: int
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
@@ -29,8 +32,60 @@ class Product:
 
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
+
+    @classmethod
+    def new_product(
+        cls,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        existing_products: Optional[list["Product"]] = None,
+    ) -> "Product":
+        """Класс-метод, который принимает на вход параметры товара в словаре
+        и возвращает созданный объект класса Product"""
+
+        if existing_products:
+            for prod in existing_products:
+                if prod.name == name:
+                    prod.price = max(prod.price, price)
+                    prod.quantity += quantity
+                    return prod
+
+        return cls(name, description, price, quantity)
+
+    @property
+    def price(self) -> float:
+        """Цена (только для чтения)."""
+
+        return self.__price
+
+    @price.setter
+    def price(self, new_price: float) -> None:
+        """
+        Сеттер проверяет новую цену.
+        Если цена меньше нуля, возникает исключение InvalidPriceError.
+        Если цена меньше предыдущей, возникает исключение PriceDecreaseError.
+        Если цена соответствует критериям, то цена переназначается на новую.
+
+        :param new_price: Новая цена
+        :return: Либо цена переназначается, либо выводит исключение.
+        """
+
+        if new_price <= 0:
+            raise InvalidPriceError(new_price)
+
+        if new_price < self.__price:
+            raise PriceDecreaseError(old=self.__price, new=new_price)
+
+        self.__price = new_price
+
+    def force_price_update(self, new_price: float) -> None:
+        """Принудительное обновление цены без срабатывания исключения."""
+
+        self.__price = new_price
 
 
 def validate_non_negative(value: float | int, object_: str) -> None:
