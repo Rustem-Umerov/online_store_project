@@ -191,3 +191,9 @@ def test_not_new_product_in_create_or_update_product(reset_counters: None) -> No
 
     assert cat.product_count == 1
     assert len(cat.products) == 1
+
+
+def test_str_display_category(category: Category) -> None:
+    """Тест строкового отображения."""
+
+    assert str(category) == "A, количество продуктов: 6 шт."
