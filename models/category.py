@@ -1,3 +1,4 @@
+from itertools import product
 from typing import Optional
 
 from models.product import Product
@@ -43,6 +44,11 @@ class Category:
         cls = type(self)
         cls.category_count += 1
         cls.product_count += len(self.products)
+
+    def __str__(self):
+        """Строковое отображение в следующем виде: Название категории, количество продуктов: 200 шт."""
+
+        return f"{self.name}, количество продуктов: {sum(prod.quantity for prod in self.__products)} шт."
 
     @property
     def products(self) -> list[Product]:
