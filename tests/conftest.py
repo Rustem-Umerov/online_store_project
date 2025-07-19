@@ -30,3 +30,10 @@ def sample_products() -> list[Product]:
         Product("B", "Desc B", 2.0, 2),
         Product("C", "Desc C", 3.0, 3),
     ]
+
+
+@pytest.fixture
+def category(sample_products: list[Product]) -> Category:
+    """Фукстура, возвращающая валидный объект Category"""
+
+    return Category("A", "Desc", sample_products)
