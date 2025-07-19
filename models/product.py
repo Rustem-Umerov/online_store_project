@@ -35,6 +35,19 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self):
+        """Строковое отображение в следующем виде: Название продукта, 80 руб. Остаток: 15 шт."""
+
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        """Вывод полной стоимости всех товаров на складе"""
+
+        if not isinstance(other, Product):
+            return NotImplemented
+
+        return self.__price * self.quantity + other.__price * other.quantity
+
     @classmethod
     def new_product(
         cls,
