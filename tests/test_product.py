@@ -161,7 +161,7 @@ def test_validate_non_negative(value: float, object_: str, result_info: str) -> 
     assert result_info in str(exc_info.value)
 
 
-def test_str_display_product(product) -> None:
+def test_str_display_product(product: Product) -> None:
     """Тест строкового отображения."""
 
     assert str(product) == "Name, 99.99 руб. Остаток: 5 шт."

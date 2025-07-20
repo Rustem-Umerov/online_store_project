@@ -1,6 +1,7 @@
+from typing import Iterator
+
 from models.category import Category
 from models.product import Product
-from typing import Iterator
 
 
 class ProductIterator:
@@ -31,10 +32,9 @@ class ProductIterator:
     def __next__(self) -> Product:
         """Магический метод, возвращает следующий элемент последовательности."""
 
-        if self._index >= len(self.category.products):
+        if self._index >= len(self._category.products):
             raise StopIteration
 
         product = self._category.products[self._index]
         self._index += 1
         return product
-
