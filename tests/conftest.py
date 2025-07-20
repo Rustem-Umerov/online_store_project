@@ -1,6 +1,8 @@
 import pytest
-from models.product import Product
+
 from models.category import Category
+from models.product import Product
+from models.product_iterator import ProductIterator
 
 
 @pytest.fixture
@@ -37,3 +39,24 @@ def category(sample_products: list[Product]) -> Category:
     """Фукстура, возвращающая валидный объект Category"""
 
     return Category("A", "Desc", sample_products)
+
+
+@pytest.fixture
+def product_iterator_obj(category: Category) -> ProductIterator:
+    """Фукстура, возвращающая валидный объект ProductIterator"""
+
+    return ProductIterator(category)
+
+
+@pytest.fixture
+def category_with_empty_product_list() -> Category:
+    """Фикстура возвращает объект класса Category с пустым списком объектов Product"""
+
+    return Category("A", "Desc", [])
+
+
+@pytest.fixture
+def category_with_one_product_in_products_list(product: Product) -> Category:
+    """Фикстура возвращает объект класса Category с одним объектом Product в списке объектов Product"""
+
+    return Category("A", "Desc", [product])
