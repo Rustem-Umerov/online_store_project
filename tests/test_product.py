@@ -159,3 +159,24 @@ def test_validate_non_negative(value: float, object_: str, result_info: str) -> 
     with pytest.raises(ValueError) as exc_info:
         validate_non_negative(value, object_)
     assert result_info in str(exc_info.value)
+
+
+def test_str_display_product(product: Product) -> None:
+    """Тест строкового отображения."""
+
+    assert str(product) == "Name, 99.99 руб. Остаток: 5 шт."
+
+
+def test_add_products_error(product: Product) -> None:
+    """Тест проверяет вывод ошибки если к объекту Product добавить не объект Product"""
+
+    with pytest.raises(TypeError):
+        _ = product + 10
+
+
+def test_add_products_success(product: Product) -> None:
+    """Тест проверяет метод __add__"""
+
+    # Ниже две проверки проверяют одно и тоже: product.__add__(product) = product + product
+    assert product.__add__(product) == 999.9
+    assert product + product == 999.9

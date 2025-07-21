@@ -1,6 +1,9 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from models.product import Product
+
+if TYPE_CHECKING:
+    from models.product_iterator import ProductIterator
 
 
 class Category:
@@ -43,6 +46,16 @@ class Category:
         cls = type(self)
         cls.category_count += 1
         cls.product_count += len(self.products)
+
+    def __str__(self) -> str:
+        """Строковое отображение в следующем виде: Название категории, количество продуктов: 200 шт."""
+
+        return f"{self.name}, количество продуктов: {sum(prod.quantity for prod in self.__products)} шт."
+
+    def __iter__(self) -> "ProductIterator":
+        """Класс Category становится итерируемым, но делегирует процесс итерации объекту ProductIterator"""
+
+        return ProductIterator(self)
 
     @property
     def products(self) -> list[Product]:

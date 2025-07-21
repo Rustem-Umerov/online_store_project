@@ -1,5 +1,5 @@
-from src.exceptions import InvalidPriceError, PriceDecreaseError
 from models.product import Product
+from src.exceptions import InvalidPriceError, PriceDecreaseError
 
 
 def update_product_price(product: Product) -> bool:

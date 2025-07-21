@@ -1,5 +1,7 @@
-from src.exceptions import InvalidPriceError, PriceDecreaseError
+from types import NotImplementedType
 from typing import Optional
+
+from src.exceptions import InvalidPriceError, PriceDecreaseError
 
 
 class Product:
@@ -34,6 +36,19 @@ class Product:
         self.description = description
         self.__price = price
         self.quantity = quantity
+
+    def __str__(self) -> str:
+        """Строковое отображение в следующем виде: Название продукта, 80 руб. Остаток: 15 шт."""
+
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: object) -> float | NotImplementedType:
+        """Вывод полной стоимости всех товаров на складе"""
+
+        if not isinstance(other, Product):
+            return NotImplemented
+
+        return self.price * self.quantity + other.price * other.quantity
 
     @classmethod
     def new_product(
