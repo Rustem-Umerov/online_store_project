@@ -48,7 +48,13 @@ class Product:
         if not isinstance(other, Product):
             return NotImplemented
 
-        return self.price * self.quantity + other.price * other.quantity
+        return self.total_cost + other.total_cost
+
+    @property
+    def total_cost(self) -> float:
+        """Определена полная стоимость товаров (цена товара умножается на количество товара)"""
+
+        return self.price * self.quantity
 
     @classmethod
     def new_product(
@@ -101,6 +107,11 @@ class Product:
         """Принудительное обновление цены без срабатывания исключения."""
 
         self.__price = new_price
+
+    def get_category_name(self) -> str:
+        """Данный метод возвращает название категории класса."""
+
+        return "Прочее"
 
 
 def validate_non_negative(value: float | int, object_: str) -> None:
