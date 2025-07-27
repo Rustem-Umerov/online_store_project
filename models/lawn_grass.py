@@ -1,10 +1,21 @@
+from typing import cast
+
 from models.product import Product
 
 
 class LawnGrass(Product):
     """Класс LawnGrass для товара «Трава газонная» - наследник от класса Product."""
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, germination_period: str, color: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ) -> None:
         """
         Инициализация объекта LawnGrass.
 
@@ -23,12 +34,13 @@ class LawnGrass(Product):
         self.germination_period = germination_period
         self.country = color
 
-    def __add__(self, other: "LawnGrass") -> float:
+    def __add__(self, other: object) -> float:
         """Вывод полной стоимости всех товаров на складе"""
 
         if type(other) is not type(self):
             raise TypeError("Можно сложить только газонную траву с другой газонной травой.")
 
+        other = cast(LawnGrass, other)
         return self.total_cost + other.total_cost
 
     @property

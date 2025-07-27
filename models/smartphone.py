@@ -1,10 +1,22 @@
+from typing import cast
+
 from models.product import Product
 
 
 class Smartphone(Product):
     """Класс Smartphone для товара «Смартфон» - наследник от класса Product."""
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, efficiency: float, model: str, memory: float, color: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: float,
+        color: str,
+    ) -> None:
         """
         Инициализация объекта Smartphone.
 
@@ -25,12 +37,13 @@ class Smartphone(Product):
         self.memory = memory
         self.color = color
 
-    def __add__(self, other: "Smartphone") -> float:
+    def __add__(self, other: object) -> float:
         """Вывод полной стоимости всех товаров на складе"""
 
         if type(other) is not type(self):
             raise TypeError("Можно сложить только смартфоны с другими смартфонами.")
 
+        other = cast(Smartphone, other)
         return self.total_cost + other.total_cost
 
     @property
