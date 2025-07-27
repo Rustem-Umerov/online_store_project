@@ -3,6 +3,8 @@ import pytest
 from models.category import Category
 from models.product import Product
 from models.product_iterator import ProductIterator
+from models.smartphone import Smartphone
+from models.lawn_grass import LawnGrass
 
 
 @pytest.fixture
@@ -60,3 +62,21 @@ def category_with_one_product_in_products_list(product: Product) -> Category:
     """Фикстура возвращает объект класса Category с одним объектом Product в списке объектов Product"""
 
     return Category("A", "Desc", [product])
+
+
+@pytest.fixture
+def smartphone() -> Smartphone:
+    """Фукстура, возвращающая валидный объект Smartphone."""
+
+    return Smartphone(
+        "a", "aaa", 10.10, 5, 100.0, "new", 10.0, "black"
+    )
+
+
+@pytest.fixture
+def lawn_grass() -> LawnGrass:
+    """Фукстура, возвращающая валидный объект LawnGrass."""
+
+    return LawnGrass(
+        "a", "aaa", 10.10, 5, "b", "c", "d"
+    )
