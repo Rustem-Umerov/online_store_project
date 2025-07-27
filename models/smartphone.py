@@ -25,6 +25,20 @@ class Smartphone(Product):
         self.memory = memory
         self.color = color
 
+    def __add__(self, other: "Smartphone") -> float:
+        """Вывод полной стоимости всех товаров на складе"""
+
+        if type(other) is not type(self):
+            raise TypeError("Можно сложить только смартфоны с другими смартфонами.")
+
+        return self.total_cost + other.total_cost
+
+    @property
+    def total_cost(self) -> float:
+        """Определена полная стоимость товаров (цена товара умножается на количество товара)"""
+
+        return self.price * self.quantity
+
     def get_category_name(self) -> str:
         """Данный метод возвращает название категории класса."""
 
