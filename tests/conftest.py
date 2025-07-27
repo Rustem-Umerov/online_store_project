@@ -4,6 +4,7 @@ from models.category import Category
 from models.product import Product
 from models.product_iterator import ProductIterator
 from models.smartphone import Smartphone
+from models.lawn_grass import LawnGrass
 
 
 @pytest.fixture
@@ -69,4 +70,13 @@ def smartphone() -> Smartphone:
 
     return Smartphone(
         "a", "aaa", 10.10, 5, 100.0, "new", 10.0, "black"
+    )
+
+
+@pytest.fixture
+def lawn_grass() -> LawnGrass:
+    """Фукстура, возвращающая валидный объект LawnGrass."""
+
+    return LawnGrass(
+        "a", "aaa", 10.10, 5, "b", "c", "d"
     )
