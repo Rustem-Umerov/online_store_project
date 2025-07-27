@@ -6,7 +6,7 @@ from typing import Any
 
 
 def test_smartphone(smartphone: Smartphone) -> None:
-    """Тест проверяет, что атрибуты класса соответствуют указанным в фикстуре."""
+    """Тест проверяет, что атрибуты класса Smartphone соответствуют указанным в фикстуре."""
 
     assert smartphone.name == "a"
     assert isinstance(smartphone.name, str)
