@@ -23,6 +23,20 @@ class LawnGrass(Product):
         self.germination_period = germination_period
         self.country = color
 
+    def __add__(self, other: "LawnGrass") -> float:
+        """Вывод полной стоимости всех товаров на складе"""
+
+        if type(other) is not type(self):
+            raise TypeError("Можно сложить только газонную траву с другой газонной травой.")
+
+        return self.total_cost + other.total_cost
+
+    @property
+    def total_cost(self) -> float:
+        """Определена полная стоимость товаров (цена товара умножается на количество товара)"""
+
+        return self.price * self.quantity
+
     def get_category_name(self) -> str:
         """Данный метод возвращает название категории класса."""
 
