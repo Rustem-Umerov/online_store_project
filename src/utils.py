@@ -24,3 +24,16 @@ def read_json(js_path: Union[str, Path]) -> dict:
         raise FileNotFoundError(f"File not found: {path}")
     except json.JSONDecodeError as e:
         raise ValueError(f"Invalid JSON in the file {path}: {e}.") from e
+
+
+def validate_non_negative(value: float | int, object_: str) -> None:
+    """
+    Универсальный валидатор. Проверяет значение объекта.
+    Если переданное значение отрицательное, то вызывается ошибка ValueError.
+
+    :param value: Значение объекта (float | int).
+    :param object_: Название объекта.
+    """
+
+    if value < 0:
+        raise ValueError(f"{object_} cannot be a negative value.")
