@@ -15,7 +15,7 @@ class BaseProduct(ABC):
 
     name: str
     description: str
-    price: float
+    _price: float
     quantity: int
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
@@ -33,6 +33,8 @@ class BaseProduct(ABC):
             get_category_name(): абстрактный метод, возвращает категорию.
             total_cost: общее свойство для подсчёта полной стоимости.
         """
+
+        super().__init__()
 
         validate_non_negative(price, "Price")
         validate_non_negative(quantity, "Quantity")

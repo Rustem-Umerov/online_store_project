@@ -3,9 +3,10 @@ from typing import Optional
 
 from src.exceptions import InvalidPriceError, PriceDecreaseError
 from models.base_product import BaseProduct
+from models.print_mixin import PrintMixin
 
 
-class Product(BaseProduct):
+class Product(PrintMixin, BaseProduct):
     """
     Класс Product описывает товар.
 
@@ -15,10 +16,6 @@ class Product(BaseProduct):
         price (float): Цена товара (рубли с копейками).
         quantity (int): Количество товара в наличии.
     """
-
-    name: str
-    description: str
-    quantity: int
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
         """
