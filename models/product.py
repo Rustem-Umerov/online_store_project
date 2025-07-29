@@ -2,9 +2,10 @@ from types import NotImplementedType
 from typing import Optional
 
 from src.exceptions import InvalidPriceError, PriceDecreaseError
+from models.base_product import BaseProduct
 
 
-class Product:
+class Product(BaseProduct):
     """
     Класс Product описывает товар.
 
@@ -29,13 +30,7 @@ class Product:
         :param quantity: Количество товара в наличии.
         """
 
-        validate_non_negative(price, "Price")
-        validate_non_negative(quantity, "Quantity")
-
-        self.name = name
-        self.description = description
-        self.__price = price
-        self.quantity = quantity
+        super().__init__(name, description, price, quantity)
 
     def __str__(self) -> str:
         """Строковое отображение в следующем виде: Название продукта, 80 руб. Остаток: 15 шт."""
@@ -49,12 +44,6 @@ class Product:
             return NotImplemented
 
         return self.total_cost + other.total_cost
-
-    @property
-    def total_cost(self) -> float:
-        """Определена полная стоимость товаров (цена товара умножается на количество товара)"""
-
-        return self.price * self.quantity
 
     @classmethod
     def new_product(
@@ -81,7 +70,7 @@ class Product:
     def price(self) -> float:
         """Цена (только для чтения)."""
 
-        return self.__price
+        return self._price
 
     @price.setter
     def price(self, new_price: float) -> None:
@@ -98,30 +87,17 @@ class Product:
         if new_price <= 0:
             raise InvalidPriceError(new_price)
 
-        if new_price < self.__price:
-            raise PriceDecreaseError(old=self.__price, new=new_price)
+        if new_price < self._price:
+            raise PriceDecreaseError(old=self._price, new=new_price)
 
-        self.__price = new_price
+        self._price = new_price
 
     def force_price_update(self, new_price: float) -> None:
         """Принудительное обновление цены без срабатывания исключения."""
 
-        self.__price = new_price
+        self._price = new_price
 
     def get_category_name(self) -> str:
         """Данный метод возвращает название категории класса."""
 
         return "Прочее"
-
-
-def validate_non_negative(value: float | int, object_: str) -> None:
-    """
-    Универсальный валидатор. Проверяет значение объекта.
-    Если переданное значение отрицательное, то вызывается ошибка ValueError.
-
-    :param value: Значение объекта (float | int).
-    :param object_: Название объекта.
-    """
-
-    if value < 0:
-        raise ValueError(f"{object_} cannot be a negative value.")
