@@ -2,8 +2,8 @@ from types import NotImplementedType
 from typing import Optional
 
 from src.exceptions import InvalidPriceError, PriceDecreaseError
-from models.base_product import BaseProduct
-from models.print_mixin import PrintMixin
+from models.core.base_product import BaseProduct
+from models.core.print_mixin import PrintMixin
 
 
 class Product(PrintMixin, BaseProduct):

@@ -1,8 +1,8 @@
 import pytest
 
-from models.category import Category
-from models.product import Product
-from models.product_iterator import ProductIterator
+from models.entities.category import Category
+from models.entities.product import Product
+from models.helpers.product_iterator import ProductIterator
 
 
 def test_product_iterator(product_iterator_obj: ProductIterator, sample_products: list[Product]) -> None:

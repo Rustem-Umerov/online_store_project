@@ -1,4 +1,4 @@
-from models.product import Product
+from models.entities.product import Product
 
 
 class Order:

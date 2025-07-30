@@ -1,7 +1,7 @@
 import pytest
 
-from models.category import Category
-from models.product import Product
+from models.entities.category import Category
+from models.entities.product import Product
 
 
 def test_initialization_with_an_empty_list_of_products(reset_counters: None) -> None:

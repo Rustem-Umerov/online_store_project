@@ -1,10 +1,10 @@
 import pytest
 
-from models.category import Category
-from models.product import Product
-from models.product_iterator import ProductIterator
-from models.smartphone import Smartphone
-from models.lawn_grass import LawnGrass
+from models.entities.category import Category
+from models.entities.product import Product
+from models.helpers.product_iterator import ProductIterator
+from models.entities.smartphone import Smartphone
+from models.entities.lawn_grass import LawnGrass
 
 
 @pytest.fixture

@@ -1,8 +1,8 @@
 import pytest
 from src.distributor import assign_to_category
-from models.smartphone import Smartphone
-from models.category import Category
-from models.lawn_grass import LawnGrass
+from models.entities.smartphone import Smartphone
+from models.entities.category import Category
+from models.entities.lawn_grass import LawnGrass
 
 
 
