@@ -1,9 +1,11 @@
+from typing import Any
+
 import pytest
-from src.distributor import assign_to_category
-from models.entities.smartphone import Smartphone
+
 from models.entities.category import Category
 from models.entities.lawn_grass import LawnGrass
-
+from models.entities.smartphone import Smartphone
+from src.distributor import assign_to_category
 
 
 def test_assign_to_valid_category(smartphone: Smartphone, lawn_grass: LawnGrass) -> None:
@@ -25,7 +27,7 @@ def test_assign_to_valid_category(smartphone: Smartphone, lawn_grass: LawnGrass)
 def test_assign_to_missing_category(smartphone: Smartphone) -> None:
     """Тест проверяет появления ошибки ValueError, если необходимая категория не найдена."""
 
-    categories = {}
+    categories: dict[str, Any] = {}
 
     with pytest.raises(ValueError, match="Категория 'Электроника' не найдена"):
         assign_to_category(smartphone, categories)
