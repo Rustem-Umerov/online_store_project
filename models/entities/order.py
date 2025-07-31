@@ -14,7 +14,13 @@ class Order:
     final_price: float
 
     def __init__(self, product: Product, quantity: int) -> None:
-        """ """
+        """
+        Инициализация класса Order:
+
+        Класс принимает на вход:
+        :param product: Экземпляр класса Product или другого класса-наследника от Product.
+        :param quantity: Количество товара (точнее количество объектов класса Product или его наследников).
+        """
 
         if quantity > product.quantity:
             raise ValueError(
