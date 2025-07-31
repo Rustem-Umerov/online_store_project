@@ -1,7 +1,7 @@
 from typing import Iterator
 
-from models.category import Category
-from models.product import Product
+from models.entities.category import Category
+from models.entities.product import Product
 
 
 class ProductIterator:

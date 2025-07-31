@@ -2,9 +2,9 @@ from typing import Any
 
 import pytest
 
-from models.lawn_grass import LawnGrass
-from models.product import Product
-from models.smartphone import Smartphone
+from models.entities.lawn_grass import LawnGrass
+from models.entities.product import Product
+from models.entities.smartphone import Smartphone
 
 
 def test_lawn_grass(lawn_grass: LawnGrass) -> None:

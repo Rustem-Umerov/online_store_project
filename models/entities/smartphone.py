@@ -1,6 +1,6 @@
 from typing import cast
 
-from models.product import Product
+from models.entities.product import Product
 
 
 class Smartphone(Product):
@@ -45,12 +45,6 @@ class Smartphone(Product):
 
         other = cast(Smartphone, other)
         return self.total_cost + other.total_cost
-
-    @property
-    def total_cost(self) -> float:
-        """Определена полная стоимость товаров (цена товара умножается на количество товара)"""
-
-        return self.price * self.quantity
 
     def get_category_name(self) -> str:
         """Данный метод возвращает название категории класса."""

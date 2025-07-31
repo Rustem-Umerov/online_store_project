@@ -1,7 +1,7 @@
 import pytest
-from models.smartphone import Smartphone
-from models.lawn_grass import LawnGrass
-from models.product import Product
+from models.entities.smartphone import Smartphone
+from models.entities.lawn_grass import LawnGrass
+from models.entities.product import Product
 from typing import Any
 
 

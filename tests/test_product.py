@@ -1,8 +1,9 @@
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
-from models.product import Product, validate_non_negative
+from models.entities.product import Product
 from src.exceptions import InvalidPriceError, PriceDecreaseError
+from src.utils import validate_non_negative
 
 
 def test_product(product: Product) -> None:
@@ -54,7 +55,7 @@ def test_init_calls_validate_non_negative(monkeypatch: MonkeyPatch) -> None:
     def fake_validator(value: float, field: str) -> None:
         calls.append((value, field))
 
-    monkeypatch.setattr("models.product.validate_non_negative", fake_validator)
+    monkeypatch.setattr("models.core.base_product.validate_non_negative", fake_validator)
     p = Product("Name", "Description", 99.99, 5)
 
     assert calls == [(99.99, "Price"), (5, "Quantity")]

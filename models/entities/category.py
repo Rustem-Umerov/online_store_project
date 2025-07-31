@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Optional
 
-from models.product import Product
+from models.entities.product import Product
 
 if TYPE_CHECKING:
-    from models.product_iterator import ProductIterator
+    from models.helpers.product_iterator import ProductIterator
 
 
 class Category:
