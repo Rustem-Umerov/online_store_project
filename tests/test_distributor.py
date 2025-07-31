@@ -14,7 +14,6 @@ def test_assign_to_valid_category(smartphone: Smartphone, lawn_grass: LawnGrass)
     category_electronics = Category("Электроника", "Гаджеты и смартфоны")
     category_garden = Category("Сад", "Товары для сада и дачи")
 
-
     categories = {"Электроника": category_electronics, "Сад": category_garden}
 
     assign_to_category(smartphone, categories)
