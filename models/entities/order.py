@@ -18,8 +18,8 @@ class Order:
 
         if quantity > product.quantity:
             raise ValueError(
-                f"Ошибка: вы пытаетесь купить {quantity} ед. товара, "
-                f"это больше, чем есть, в наличии {product.quantity}"
+                f"Ошибка: вы пытаетесь купить: {quantity} ед. товара, "
+                f"это больше, чем есть, в наличии: {product.quantity} ед."
             )
 
         self.product = product
