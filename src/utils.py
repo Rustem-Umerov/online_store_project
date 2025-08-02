@@ -26,14 +26,18 @@ def read_json(js_path: Union[str, Path]) -> dict:
         raise ValueError(f"Invalid JSON in the file {path}: {e}.") from e
 
 
-def validate_non_negative(value: float | int, object_: str) -> None:
+def validate_min(value: float | int, min_value: float, object_: str, message: str = None ) -> None:
     """
     Универсальный валидатор. Проверяет значение объекта.
-    Если переданное значение отрицательное, то вызывается ошибка ValueError.
+    Если переданное значение меньше минимально допустимого, то вызывается ошибка ValueError.
 
     :param value: Значение объекта (float | int).
+    :param min_value: Минимально допустимое значение.
     :param object_: Название объекта.
+    :param message: Сообщение об ошибке(опционально).
     """
 
-    if value < 0:
-        raise ValueError(f"{object_} cannot be a negative value.")
+    if value < min_value:
+        if message is None:
+            message = f"{object_} не может быть меньше {min_value}."
+        raise ValueError(message)
