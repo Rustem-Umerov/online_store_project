@@ -57,6 +57,14 @@ class Category:
 
         return ProductIterator(self)
 
+    def average_price(self) -> float:
+        """Метод, который подсчитывает средний ценник всех товаров."""
+
+        if not self.__products:
+            return 0
+
+        return sum(prod.price for prod in self.__products) / len(self.__products)
+
     @property
     def products(self) -> list[Product]:
         """Список товаров (только для чтения)."""
