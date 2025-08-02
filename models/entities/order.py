@@ -1,4 +1,5 @@
 from models.entities.product import Product
+from src.exceptions import NegativeOrZeroQuantityError
 
 
 class Order:
@@ -22,6 +23,12 @@ class Order:
         :param quantity: Количество товара (точнее количество объектов класса Product или его наследников).
         """
 
+        if not isinstance(product, Product):
+            raise TypeError("Передан объект, не являющийся товаром.")
+
+        if quantity < 1:
+            raise NegativeOrZeroQuantityError(product.name)
+
         if quantity > product.quantity:
             raise ValueError(
                 f"Ошибка: вы пытаетесь купить: {quantity} ед. товара, "
@@ -30,9 +37,9 @@ class Order:
 
         self.product = product
         self.quantity = quantity
-        self.final_price = product.price * quantity
+        self.final_price = round(product.price * quantity, 2)
 
-        product.quantity -= self.quantity
+        product.decrease_quantity(self.quantity)
 
     def __str__(self) -> str:
         """Вывод информации в консоль (для пользователя)
