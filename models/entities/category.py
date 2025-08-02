@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, Optional
+from src.exceptions import NegativeOrZeroQuantityError
 
 from models.entities.product import Product
 
@@ -76,8 +77,18 @@ class Category:
 
         if not isinstance(product, Product):
             raise TypeError("Must add Product instance.")
+
+        try:
+            if product.quantity < 1:
+                raise NegativeOrZeroQuantityError(product.name)
+        except NegativeOrZeroQuantityError as e:
+            print(str(e))
+            return
+
         self.__products.append(product)
         type(self).product_count += 1
+        print(f"Товар {product.name} успешно добавлен.")
+        print(f"Обработка добавления товара {product.name} завершена.")
 
     @property
     def list_product(self) -> str:
