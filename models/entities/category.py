@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, Optional
+from src.exceptions import NegativeOrZeroQuantityError
 
 from models.entities.product import Product
 
@@ -57,6 +58,16 @@ class Category:
 
         return ProductIterator(self)
 
+    def average_price(self) -> float:
+        """
+        Метод, который подсчитывает средний ценник всех товаров.
+        Если список товаров пустой возвращается ноль."""
+
+        if not self.__products:
+            return 0.0
+
+        return round(sum(prod.price for prod in self.__products) / len(self.__products), 2)
+
     @property
     def products(self) -> list[Product]:
         """Список товаров (только для чтения)."""
@@ -64,12 +75,25 @@ class Category:
         return list(self.__products)
 
     def add_product(self, product: Product) -> None:
-        """Специальный метод, для добавления товаров в категорию."""
+        """Специальный метод, для добавления товаров в категорию.
+        Если в метод передать объект не класса Product или его наследников, то будет ошибка TypeError.
+        Если у объекта класса Product или его наследников количество будет меньше единицы (то есть, нуль или меньше),
+        то будет персональное исключение NegativeOrZeroQuantityError."""
 
         if not isinstance(product, Product):
             raise TypeError("Must add Product instance.")
+
+        try:
+            if product.quantity < 1:
+                raise NegativeOrZeroQuantityError(product.name)
+        except NegativeOrZeroQuantityError as e:
+            print(str(e))
+            return
+
         self.__products.append(product)
         type(self).product_count += 1
+        print(f"Товар {product.name} успешно добавлен.")
+        print(f"Обработка добавления товара {product.name} завершена.")
 
     @property
     def list_product(self) -> str:

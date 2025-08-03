@@ -98,3 +98,12 @@ class Product(PrintMixin, BaseProduct):
         """Данный метод возвращает название категории класса."""
 
         return "Прочее"
+
+    def decrease_quantity(self, amount: int) -> None:
+        """Метод для уменьшения количества товара."""
+
+        if amount < 1:
+            raise ValueError("Нельзя уменьшить количество на ноль или отрицательное число.")
+        if amount > self.quantity:
+            raise ValueError(f"Недостаточно товара: запрошено {amount}, в наличии {self.quantity}.")
+        self.quantity -= amount

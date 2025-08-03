@@ -1,8 +1,10 @@
+from typing import Any
+
 import pytest
-from models.entities.smartphone import Smartphone
+
 from models.entities.lawn_grass import LawnGrass
 from models.entities.product import Product
-from typing import Any
+from models.entities.smartphone import Smartphone
 
 
 def test_smartphone(smartphone: Smartphone) -> None:

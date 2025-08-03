@@ -50,7 +50,7 @@ def test_base_product_cannot_be_instantiated() -> None:
 def test_base_product_negative_price_error() -> None:
     """Тест проверяет, что будет ошибка ValueError, если попытаться создать экземпляр класса с отрицательной ценой."""
 
-    with pytest.raises(ValueError, match="Price cannot be a negative value."):
+    with pytest.raises(ValueError, match="Цена не может быть отрицательной или нулевой."):
         TestProduct("a", "aaa", -10, 5)
 
 
@@ -58,17 +58,12 @@ def test_base_product_negative_quantity_error() -> None:
     """Тест проверяет, что будет ошибка ValueError,
     если попытаться создать экземпляр класса с отрицательным количеством."""
 
-    with pytest.raises(ValueError, match="Quantity cannot be a negative value."):
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен."):
         TestProduct("a", "aaa", 10, -5)
 
 
 def test_base_product_zero_price_quantity() -> None:
-    """Тест проверяет, что экземпляр класса с нулевой ценой и количеством создаётся без ошибок."""
+    """Тест проверяет, что будет ошибка ValueError, если экземпляр класса имеет нулевую цену и количество."""
 
-    prod = TestProduct("a", "aaa", 0, 0)
-
-    assert prod.name == "a"
-    assert prod.description == "aaa"
-    assert prod.price == 0
-    assert prod.quantity == 0
-    assert prod.total_cost == 0
+    with pytest.raises(ValueError, match="Цена не может быть отрицательной или нулевой."):
+        TestProduct("a", "aaa", 0, 0)

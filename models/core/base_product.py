@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.utils import validate_non_negative
+from src.utils import validate_min
 
 
 class BaseProduct(ABC):
@@ -36,13 +36,22 @@ class BaseProduct(ABC):
 
         super().__init__()
 
-        validate_non_negative(price, "Price")
-        validate_non_negative(quantity, "Quantity")
+        validate_min(price,
+                              0.01,
+                              "Price",
+                              "Цена не может быть отрицательной или нулевой."
+                              )
+        validate_min(quantity,
+                              1,
+                              "Quantity",
+                              "Товар с нулевым количеством не может быть добавлен."
+                              )
 
         self.name = name
         self.description = description
         self._price = price
         self.quantity = quantity
+
 
     @abstractmethod
     def get_category_name(self) -> str:
