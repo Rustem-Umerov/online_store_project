@@ -1,7 +1,9 @@
 import pytest
 
 from models.entities.category import Category
+from models.entities.lawn_grass import LawnGrass
 from models.entities.product import Product
+from models.entities.smartphone import Smartphone
 
 
 def test_initialization_with_an_empty_list_of_products(reset_counters: None) -> None:
@@ -23,8 +25,7 @@ def test_initialization_with_an_empty_list_of_products(reset_counters: None) -> 
     assert Category.product_count == 0
 
 
-def test_init_with_products_populates_list_and_counters(
-        reset_counters: None, sample_products: list[Product]) -> None:
+def test_init_with_products_populates_list_and_counters(reset_counters: None, sample_products: list[Product]) -> None:
     """Инициализация с непустым списком товаров"""
 
     cat = Category("Фрукты", "Еда", sample_products)
@@ -39,13 +40,7 @@ def test_init_with_products_populates_list_and_counters(
 def test_init_with_invalid_items_raises_type_error_and_no_counter_increment(reset_counters: None) -> None:
     """Проверка, что будет ошибка TypeError, если список продуктов будет состоять не только из объектов Product."""
 
-    invalid_list = [
-        Product("a", "aaa", 10.10, 5),
-        Product("b", "bbb", 15.15, 10),
-        "product",
-        ["abc", "abc"],
-        99.99
-    ]
+    invalid_list = [Product("a", "aaa", 10.10, 5), Product("b", "bbb", 15.15, 10), "product", ["abc", "abc"], 99.99]
 
     with pytest.raises(TypeError) as eac_info:
         Category("name", "desc", invalid_list)  # type: ignore[arg-type]
@@ -129,6 +124,15 @@ def test_not_class_object() -> None:
     assert "Must add Product instance." in str(exc.value)
 
 
+@pytest.mark.parametrize("quantity", [0, -5])
+def test_add_product_not_quantity(category_with_empty_product_list: Category, quantity: int) -> None:
+    """Тест проверяет, что будет ошибка, если в метод add_product передать объект класса Product или его наследников
+    с нулевым или отрицательным количеством."""
+
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен."):
+        category_with_empty_product_list.add_product(Product("a", "aa", 10, quantity))
+
+
 def test_add_product_object(reset_counters: None, sample_products: list[Product]) -> None:
     """Проверка работы метода add_product с правильными данными(объектами класса Product)"""
 
@@ -198,3 +202,20 @@ def test_str_display_category(category: Category) -> None:
     """Тест строкового отображения."""
 
     assert str(category) == "A, количество продуктов: 6 шт."
+
+
+def test_average_price(product: Product, lawn_grass: LawnGrass, smartphone: Smartphone) -> None:
+    """Тест метода average_price, который подсчитывает средний ценник всех товаров."""
+
+    cat = Category("a", "aaa", [product, lawn_grass, smartphone])
+
+    assert cat.average_price() == 40.06
+
+
+def test_average_price_empty_list_product() -> None:
+    """Тест метода average_price, который подсчитывает средний ценник всех товаров.
+    В данном тесте, метод должен вернуть 0.0, так список продуктов пустой."""
+
+    cat = Category("a", "aaa", [])
+
+    assert cat.average_price() == 0.0

@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Union, Optional
 
 
 def read_json(js_path: Union[str, Path]) -> dict:
@@ -26,7 +26,7 @@ def read_json(js_path: Union[str, Path]) -> dict:
         raise ValueError(f"Invalid JSON in the file {path}: {e}.") from e
 
 
-def validate_min(value: float | int, min_value: float, object_: str, message: str = None ) -> None:
+def validate_min(value: float | int, min_value: float, object_: str, message: Optional[str] = None ) -> None:
     """
     Универсальный валидатор. Проверяет значение объекта.
     Если переданное значение меньше минимально допустимого, то вызывается ошибка ValueError.

@@ -1,9 +1,11 @@
+from typing import Optional
+
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
 from models.entities.product import Product
 from src.exceptions import InvalidPriceError, PriceDecreaseError
-from src.utils import validate_non_negative
+from src.utils import validate_min
 
 
 def test_product(product: Product) -> None:
@@ -26,7 +28,7 @@ def test_negative_price(negative_price: float) -> None:
 
     with pytest.raises(ValueError) as exc:
         Product("A", "Abc", negative_price, 10)
-    assert "Price cannot be a negative value." in str(exc.value)
+    assert "Цена не может быть отрицательной или нулевой." in str(exc.value)
 
 
 @pytest.mark.parametrize(
@@ -38,27 +40,24 @@ def test_negative_quantity(negative_quantity: int) -> None:
 
     with pytest.raises(ValueError) as exc:
         Product("A", "Abc", 10.10, negative_quantity)
-    assert "Quantity cannot be a negative value." in str(exc.value)
+    assert "Товар с нулевым количеством не может быть добавлен." in str(exc.value)
 
 
 def test_init_calls_validate_non_negative(monkeypatch: MonkeyPatch) -> None:
     """
     Проверяет, что при инициализации объекта Product вызывается функция validate_non_negative
     с правильными аргументами (сначала для цены, затем для количества).
-
-    :param monkeypatch:
-    :return:
     """
 
     calls = []
 
-    def fake_validator(value: float, field: str) -> None:
-        calls.append((value, field))
+    def fake_validator(value: float, min_value: float, object_: str, message: Optional[str] = None) -> None:
+        calls.append((value, min_value, object_))
 
-    monkeypatch.setattr("models.core.base_product.validate_non_negative", fake_validator)
+    monkeypatch.setattr("models.core.base_product.validate_min", fake_validator)
     p = Product("Name", "Description", 99.99, 5)
 
-    assert calls == [(99.99, "Price"), (5, "Quantity")]
+    assert calls == [(99.99, 0.01, "Price"), (5, 1, "Quantity")]
 
     assert p.price == 99.99
     assert p.quantity == 5
@@ -147,9 +146,9 @@ def test_force_price_update(product: Product, new_price: float) -> None:
 @pytest.mark.parametrize(
     "value, object_, result_info",
     [
-        (-10, "AAA", "AAA cannot be a negative value."),
-        (-15, "BBB", "BBB cannot be a negative value."),
-        (-25.2563, "EEE", "EEE cannot be a negative value."),
+        (-10, "AAA", "AAA не может быть меньше 0.01."),
+        (-15, "BBB", "BBB не может быть меньше 0.01."),
+        (-25.2563, "EEE", "EEE не может быть меньше 0.01."),
     ],
 )
 def test_validate_non_negative(value: float, object_: str, result_info: str) -> None:
@@ -158,7 +157,7 @@ def test_validate_non_negative(value: float, object_: str, result_info: str) -> 
     """
 
     with pytest.raises(ValueError) as exc_info:
-        validate_non_negative(value, object_)
+        validate_min(value, 0.01, object_)
     assert result_info in str(exc_info.value)
 
 

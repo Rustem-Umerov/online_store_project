@@ -1,10 +1,10 @@
 import pytest
 
 from models.entities.category import Category
-from models.entities.product import Product
-from models.helpers.product_iterator import ProductIterator
-from models.entities.smartphone import Smartphone
 from models.entities.lawn_grass import LawnGrass
+from models.entities.product import Product
+from models.entities.smartphone import Smartphone
+from models.helpers.product_iterator import ProductIterator
 
 
 @pytest.fixture
@@ -68,15 +68,11 @@ def category_with_one_product_in_products_list(product: Product) -> Category:
 def smartphone() -> Smartphone:
     """Фукстура, возвращающая валидный объект Smartphone."""
 
-    return Smartphone(
-        "a", "aaa", 10.10, 5, 100.0, "new", 10.0, "black"
-    )
+    return Smartphone("a", "aaa", 10.10, 5, 100.0, "new", 10.0, "black")
 
 
 @pytest.fixture
 def lawn_grass() -> LawnGrass:
     """Фукстура, возвращающая валидный объект LawnGrass."""
 
-    return LawnGrass(
-        "a", "aaa", 10.10, 5, "b", "c", "d"
-    )
+    return LawnGrass("a", "aaa", 10.10, 5, "b", "c", "d")

@@ -59,12 +59,14 @@ class Category:
         return ProductIterator(self)
 
     def average_price(self) -> float:
-        """Метод, который подсчитывает средний ценник всех товаров."""
+        """
+        Метод, который подсчитывает средний ценник всех товаров.
+        Если список товаров пустой возвращается ноль."""
 
         if not self.__products:
-            return 0
+            return 0.0
 
-        return sum(prod.price for prod in self.__products) / len(self.__products)
+        return round(sum(prod.price for prod in self.__products) / len(self.__products), 2)
 
     @property
     def products(self) -> list[Product]:
@@ -73,7 +75,10 @@ class Category:
         return list(self.__products)
 
     def add_product(self, product: Product) -> None:
-        """Специальный метод, для добавления товаров в категорию."""
+        """Специальный метод, для добавления товаров в категорию.
+        Если в метод передать объект не класса Product или его наследников, то будет ошибка TypeError.
+        Если у объекта класса Product или его наследников количество будет меньше единицы (то есть, нуль или меньше),
+        то будет персональное исключение NegativeOrZeroQuantityError."""
 
         if not isinstance(product, Product):
             raise TypeError("Must add Product instance.")
